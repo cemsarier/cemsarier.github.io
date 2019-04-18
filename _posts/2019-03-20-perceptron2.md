@@ -1,5 +1,5 @@
 ---
-title: "Machine Learning Project: Logictic Regression"
+title: "Machine Learning Project: Planar data classification with one hidden layer"
 date: "2019-03-15"
 tages: [machine learning, neural network, data science]
 excerpt: "Machine Learning, Perceptron, Data Science"
