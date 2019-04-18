@@ -21,7 +21,7 @@ from lr_utils import load_dataset
 
 %matplotlib inline
 ```
-## Overwiev
+## 2 - Overwiev
 
 - a training set of m_train images labeled as cat (y=1) or non-cat (y=0)
 - a test set of m_test images labeled as cat or non-cat
@@ -95,7 +95,7 @@ For one observation x(i), we have:
 And then the cost is computed by the following:
 <img src="{{ site.url }}{{ site.baseurl }}/images/perceptron/math2.jpg" alt="cost function">
 
-## Building The algorithm
+## 3 - Building The Algorithm
 The main steps are:
 
 * Define the model structure (such as number of input features)
