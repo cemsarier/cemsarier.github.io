@@ -59,6 +59,7 @@ print ('Accuracy of logistic regression: %d ' % float((np.dot(Y,LR_predictions) 
        '% ' + "(percentage of correctly labelled datapoints)")
 ```
 Accuracy of logistic regression: 47 % (percentage of correctly labelled datapoints)
+
 <img src="{{ site.url }}{{ site.baseurl }}/images/perceptron/planar_data2.png" alt="planar data db">
 
 ## 4 - Neural Network Model
@@ -113,12 +114,11 @@ def initialize_parameters(n_x, n_h, n_y):
 
     np.random.seed(2) # we set up a seed so that your output matches ours although the initialization is random.
 
-    ### START CODE HERE ### (≈ 4 lines of code)
+
     W1 = np.random.randn(n_h,n_x)* 0.01
     b1 = np.zeros((n_h,1))
     W2 = np.random.randn(n_y,n_h)* 0.01
     b2 = np.zeros((n_y,1))
-    ### END CODE HERE ###
 
     assert (W1.shape == (n_h, n_x))
     assert (b1.shape == (n_h, 1))
@@ -146,12 +146,10 @@ def forward_propagation(X, parameters):
     cache -- a dictionary containing "Z1", "A1", "Z2" and "A2"
     """
     # Retrieve each parameter from the dictionary "parameters"
-    ### START CODE HERE ### (≈ 4 lines of code)
     W1 = parameters["W1"]
     b1 = parameters["b1"]
     W2 = parameters["W2"]
     b2 = parameters["b2"]
-    ### END CODE HERE ###
 
     # Implement Forward Propagation to calculate A2 (probabilities)
     Z1 = np.dot(W1,X)+b1
@@ -196,7 +194,7 @@ def compute_cost(A2, Y, parameters):
     return cost
 ```
 
-<img src="{{ site.url }}{{ site.baseurl }}/images/perceptron/grad_summary.jpg" alt="grad summary">
+<img src="{{ site.url }}{{ site.baseurl }}/images/perceptron/grad_summary.png" alt="grad summary">
 
 ```python
 def backward_propagation(parameters, cache, X, Y):
@@ -356,16 +354,15 @@ parameters = nn_model(X, Y, n_h = 4, num_iterations = 10000, print_cost=True)
 plot_decision_boundary(lambda x: predict(parameters, x.T), X, Y)
 plt.title("Decision Boundary for hidden layer size " + str(4))
 ```
-Cost after iteration 0: 0.693048
-Cost after iteration 1000: 0.288083
-Cost after iteration 2000: 0.254385
-Cost after iteration 3000: 0.233864
-Cost after iteration 4000: 0.226792
-Cost after iteration 5000: 0.222644
-Cost after iteration 6000: 0.219731
-Cost after iteration 7000: 0.217504
-Cost after iteration 8000: 0.219454
-Cost after iteration 9000: 0.218607
+- Cost after iteration 1000: 0.288083
+- Cost after iteration 2000: 0.254385
+- Cost after iteration 3000: 0.233864
+- Cost after iteration 4000: 0.226792
+- Cost after iteration 5000: 0.222644
+- Cost after iteration 6000: 0.219731
+- Cost after iteration 7000: 0.217504
+- Cost after iteration 8000: 0.219454
+- Cost after iteration 9000: 0.218607
 
 <img src="{{ site.url }}{{ site.baseurl }}/images/perceptron/planar_data2.png" alt="planar data with 4 hl">
 
@@ -390,13 +387,13 @@ for i, n_h in enumerate(hidden_layer_sizes):
     print ("Accuracy for {} hidden units: {} %".format(n_h, accuracy))
 ```
 
-Accuracy for 1 hidden units: 67.5 %
-Accuracy for 2 hidden units: 67.25 %
-Accuracy for 3 hidden units: 90.75 %
-Accuracy for 4 hidden units: 90.5 %
-Accuracy for 5 hidden units: 91.25 %
-Accuracy for 20 hidden units: 90.0 %
-Accuracy for 50 hidden units: 90.75 %
+- Accuracy for 1 hidden units: 67.5 %
+- Accuracy for 2 hidden units: 67.25 %
+- Accuracy for 3 hidden units: 90.75 %
+- Accuracy for 4 hidden units: 90.5 %
+- Accuracy for 5 hidden units: 91.25 %
+- Accuracy for 20 hidden units: 90.0 %
+- Accuracy for 50 hidden units: 90.75 %
 
 Accuracy increased as we increased the layers, i.e. as we make the model deeper. But we can also see that it overfitted more with higher hidden layer sizes.
 
