@@ -107,7 +107,7 @@ analytics:
 # Site Author
 author:
   name             : "Cem Sarıer"
-  avatar           : /images/0.jpg"
+  avatar           : "/images/0.jpg"
   bio              : "Data Science Portfolio"
   location         : "Istanbul, TR"
   email            : "cemsarier@gmail.com"
