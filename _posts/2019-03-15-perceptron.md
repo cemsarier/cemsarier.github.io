@@ -37,7 +37,7 @@ plt.imshow(train_set_x_orig[index])
 print ("y = " + str(train_set_y[:, index]) + ", it's a '" + classes[np.squeeze(train_set_y[:, index])].decode("utf-8") +  "' picture.")
 ```
 y = [1], it's a 'cat' picture.
-<img src="{{ site.url }}{{ site.baseurl }}/images/cat.jpg" alt="a cat image">
+<img src="{{ site.url }}{{ site.baseurl }}/images/perceptron/cat.jpg" alt="a cat image">
 
 Check the shapes:
 ```python
@@ -91,9 +91,9 @@ test_set_x = test_set_x_flatten/255.
 
 **Mathematical expression of the algorithm:**
 For one observation x(i), we have:
-<img src="{{ site.url }}{{ site.baseurl }}/images/math1.jpg" alt="sigmoid function">
+<img src="{{ site.url }}{{ site.baseurl }}/images/perceptron/math1.jpg" alt="sigmoid function">
 And then the cost is computed by the following:
-<img src="{{ site.url }}{{ site.baseurl }}/images/math2.jpg" alt="cost function">
+<img src="{{ site.url }}{{ site.baseurl }}/images/perceptron/math2.jpg" alt="cost function">
 
 ## Building The algorithm
 The main steps are:
@@ -148,7 +148,7 @@ def initialize_with_zeros(dim):
 For image inputs, w will be of shape (num_px  ××  num_px  ××  3, 1).
 
 The formulas we will be using are:
-<img src="{{ site.url }}{{ site.baseurl }}/images/propagate.jpg" alt="derivative of cost">
+<img src="{{ site.url }}{{ site.baseurl }}/images/perceptron/propagate.jpg" alt="derivative of cost">
 
 ```python
 def propagate(w, b, X, Y):
