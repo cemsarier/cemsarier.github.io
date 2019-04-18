@@ -107,10 +107,11 @@ analytics:
 # Site Author
 author:
   name             : "Cem Sarıer"
-  avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
+  avatar           : /images/0.jpg"
   bio              : "Data Science Portfolio"
   location         : "Istanbul, TR"
   email            : "cemsarier@gmail.com"
+  linkedin         : "cemsarier"
   links:
     - label: "Email"
       icon: "fas fa-fw fa-envelope-square"
