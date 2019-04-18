@@ -2,8 +2,6 @@
 title: "Machine Learning Project: Logictic Regression"
 date: "2019-03-15"
 tages: [machine learning, neural network, data science]
-header:
-  image: "/images/perceptron/lr.png"
 excerpt: "Machine Learning, Perceptron, Data Science"
 ---
 
@@ -12,7 +10,7 @@ excerpt: "Machine Learning, Perceptron, Data Science"
 
 ## 1 - Packages
 Lets first import our packages.
-'''python
+```python
 import numpy as np
 import matplotlib.pyplot as plt
 import h5py
@@ -22,7 +20,7 @@ from scipy import ndimage
 from lr_utils import load_dataset
 
 %matplotlib inline
-'''
+```
 ## Overwiev
 
 - a training set of m_train images labeled as cat (y=1) or non-cat (y=0)
@@ -33,40 +31,313 @@ We will build a simple image-recognition algorithm that can correctly classify p
 
 An example is:
 
-'''python
+```python
 index = 25
 plt.imshow(train_set_x_orig[index])
 print ("y = " + str(train_set_y[:, index]) + ", it's a '" + classes[np.squeeze(train_set_y[:, index])].decode("utf-8") +  "' picture.")
-'''
+```
 y = [1], it's a 'cat' picture.
-<img src="{{ site.url }}{{ site.baseurl }}/images/cat.png" alt="a cat image">
+<img src="{{ site.url }}{{ site.baseurl }}/images/cat.jpg" alt="a cat image">
 
-### H3 Heading
+Check the shapes:
+```python
+m_train = train_set_x_orig.shape[0]
+m_test = test_set_x_orig.shape[0]
+num_px = train_set_x_orig.shape[1]
 
-Here's some basic text.
+print ("Number of training examples: m_train = " + str(m_train))
+print ("Number of testing examples: m_test = " + str(m_test))
+print ("Height/Width of each image: num_px = " + str(num_px))
+print ("Each image is of size: (" + str(num_px) + ", " + str(num_px) + ", 3)")
+print ("train_set_x shape: " + str(train_set_x_orig.shape))
+print ("train_set_y shape: " + str(train_set_y.shape))
+print ("test_set_x shape: " + str(test_set_x_orig.shape))
+print ("test_set_y shape: " + str(test_set_y.shape))
+```
+Number of training examples: m_train = 209
+Number of testing examples: m_test = 50
+Height/Width of each image: num_px = 64
+Each image is of size: (64, 64, 3)
+train_set_x shape: (209, 64, 64, 3)
+train_set_y shape: (1, 209)
+test_set_x shape: (50, 64, 64, 3)
+test_set_y shape: (1, 50)
 
-And here's some *italics*
+We should reshape the training and test data sets so that images of size (num_px, num_px, 3) are flattened into single vectors of shape (num_px  ∗∗  num_px  ∗∗ 3, 1).
 
-Here's some **bold** text.
+```python
+train_set_x_flatten = train_set_x_orig.reshape(train_set_x_orig.shape[0],-1).T
+test_set_x_flatten = test_set_x_orig.reshape(test_set_x_orig.shape[0],-1).T
 
-A link [link](https://github.com)
+print ("train_set_x_flatten shape: " + str(train_set_x_flatten.shape))
+print ("train_set_y shape: " + str(train_set_y.shape))
+print ("test_set_x_flatten shape: " + str(test_set_x_flatten.shape))
+print ("test_set_y shape: " + str(test_set_y.shape))
+print ("sanity check after reshaping: " + str(train_set_x_flatten[0:5,0]))
+```
+And we obtain:
 
-Bulleted list:
-* first item
-* second
-* third item
+train_set_x_flatten shape: (12288, 209)
+train_set_y shape: (1, 209)
+test_set_x_flatten shape: (12288, 50)
+test_set_y shape: (1, 50)
+sanity check after reshaping: [17 31 56 22 33]
 
-num list:
-1. once
-2. seconds
-3. something
+Do the standardization:
+```python
+train_set_x = train_set_x_flatten/255.
+test_set_x = test_set_x_flatten/255.
+```
 
-Python code block:
+**Mathematical expression of the algorithm:**
+For one observation x(i), we have:
+<img src="{{ site.url }}{{ site.baseurl }}/images/math1.jpg" alt="sigmoid function">
+And then the cost is computed by the following:
+<img src="{{ site.url }}{{ site.baseurl }}/images/math2.jpg" alt="cost function">
 
-'''python
-  import numpy as np
+## Building The algorithm
+The main steps are:
 
-  def test_function(x, y):
-    print("Hello world!")
+* Define the model structure (such as number of input features)
+* Initialize the model's parameters
+* Loop:
+  - Calculate current loss (forward propagation)
+  - Calculate current gradient (backward propagation)
+  - Update parameters (gradient descent)
 
-'''
+
+### Helper Functions
+
+```python
+def sigmoid(z):
+    """
+    Compute the sigmoid of z
+
+    Arguments:
+    z -- A scalar or numpy array of any size.
+
+    Return:
+    s -- sigmoid(z)
+    """
+    s = 1/(1+np.exp(-z))    
+    return s
+```
+
+
+```python
+def initialize_with_zeros(dim):
+    """
+    This function creates a vector of zeros of shape (dim, 1) for w and initializes b to 0.
+
+    Argument:
+    dim -- size of the w vector we want (or number of parameters in this case)
+
+    Returns:
+    w -- initialized vector of shape (dim, 1)
+    b -- initialized scalar (corresponds to the bias)
+    """
+
+    w = np.zeros([dim,1])
+    b = 0
+
+    assert(w.shape == (dim, 1))
+    assert(isinstance(b, float) or isinstance(b, int))
+
+    return w, b
+```
+For image inputs, w will be of shape (num_px  ××  num_px  ××  3, 1).
+
+The formulas we will be using are:
+<img src="{{ site.url }}{{ site.baseurl }}/images/propagate.jpg" alt="derivative of cost">
+
+```python
+def propagate(w, b, X, Y):
+    """
+    Implement the cost function and its gradient for the propagation explained above
+
+    Arguments:
+    w -- weights, a numpy array of size (num_px * num_px * 3, 1)
+    b -- bias, a scalar
+    X -- data of size (num_px * num_px * 3, number of examples)
+    Y -- true "label" vector (containing 0 if non-cat, 1 if cat) of size (1, number of examples)
+
+    Return:
+    cost -- negative log-likelihood cost for logistic regression
+    dw -- gradient of the loss with respect to w, thus same shape as w
+    db -- gradient of the loss with respect to b, thus same shape as b
+
+    """
+
+    m = X.shape[1]
+
+    # FORWARD PROPAGATION (FROM X TO COST)
+    A = sigmoid(np.dot(w.T,X)+b)                                   # compute activation
+    cost = -1/m * np.sum( np.dot(np.log(A), Y.T) + np.dot(np.log(1-A), (1-Y.T)))
+
+
+    # BACKWARD PROPAGATION (TO FIND GRAD)
+    dw = np.dot(X,(A-Y).T)/m
+    db = sum((A-Y)[0])/m
+
+    assert(dw.shape == w.shape)
+    assert(db.dtype == float)
+    cost = np.squeeze(cost)
+    assert(cost.shape == ())
+
+    grads = {"dw": dw,
+             "db": db}
+
+    return grads, cost
+```
+
+Now we will do the optimization.
+
+The goal is to learn w and  b by minimizing the cost function  J. For a parameter θ , the update rule is  **θ=θ−α dθ**, where α is the learning rate.
+
+```python
+def optimize(w, b, X, Y, num_iterations, learning_rate, print_cost = False):
+    """
+    This function optimizes w and b by running a gradient descent algorithm
+
+    Arguments:
+    w -- weights, a numpy array of size (num_px * num_px * 3, 1)
+    b -- bias, a scalar
+    X -- data of shape (num_px * num_px * 3, number of examples)
+    Y -- true "label" vector (containing 0 if non-cat, 1 if cat), of shape (1, number of examples)
+    num_iterations -- number of iterations of the optimization loop
+    learning_rate -- learning rate of the gradient descent update rule
+    print_cost -- True to print the loss every 100 steps
+
+    Returns:
+    params -- dictionary containing the weights w and bias b
+    grads -- dictionary containing the gradients of the weights and bias with respect to the cost function
+    costs -- list of all the costs computed during the optimization, this will be used to plot the learning curve.
+
+    """
+
+    costs = []
+
+    for i in range(num_iterations):
+
+
+        # Cost and gradient calculation (≈ 1-4 lines of code)
+        grads, cost = propagate(w, b, X, Y)
+
+        # Retrieve derivatives from grads
+        dw = grads["dw"]
+        db = grads["db"]
+
+        w = w-learning_rate*dw
+        b = b-learning_rate*db
+
+        # Record the costs
+        if i % 100 == 0:
+            costs.append(cost)
+
+        # Print the cost every 100 training iterations
+        if print_cost and i % 100 == 0:
+            print ("Cost after iteration %i: %f" %(i, cost))
+
+    params = {"w": w,
+              "b": b}
+
+    grads = {"dw": dw,
+             "db": db}
+
+    return params, grads, costs
+```
+The previous function will output the learned w and b. We are able to use w and b to predict the labels for a dataset X. Now we will implement the **predict** function.
+
+```python
+def predict(w, b, X):
+    '''
+    Predict whether the label is 0 or 1 using learned logistic regression parameters (w, b)
+
+    Arguments:
+    w -- weights, a numpy array of size (num_px * num_px * 3, 1)
+    b -- bias, a scalar
+    X -- data of size (num_px * num_px * 3, number of examples)
+
+    Returns:
+    Y_prediction -- a numpy array (vector) containing all predictions (0/1) for the examples in X
+    '''
+
+    m = X.shape[1]
+    Y_prediction = np.zeros((1,m))
+    w = w.reshape(X.shape[0], 1)
+
+    # Compute vector "A" predicting the probabilities of a cat being present in the picture
+    A = sigmoid(np.dot(w.T,X)+b)
+
+    for i in range(A.shape[1]):
+
+        # Convert probabilities A[0,i] to actual predictions p[0,i]
+        if A[0][i] > 0.5:
+            Y_prediction[0][i] = 1
+        else:
+            Y_prediction[0][i] = 0
+
+    assert(Y_prediction.shape == (1, m))
+
+    return Y_prediction
+```
+## Merge all functions into a model
+
+```python
+def model(X_train, Y_train, X_test, Y_test, num_iterations = 2000, learning_rate = 0.5, print_cost = False):
+    """
+    Builds the logistic regression model by calling the function you've implemented previously
+
+    Arguments:
+    X_train -- training set represented by a numpy array of shape (num_px * num_px * 3, m_train)
+    Y_train -- training labels represented by a numpy array (vector) of shape (1, m_train)
+    X_test -- test set represented by a numpy array of shape (num_px * num_px * 3, m_test)
+    Y_test -- test labels represented by a numpy array (vector) of shape (1, m_test)
+    num_iterations -- hyperparameter representing the number of iterations to optimize the parameters
+    learning_rate -- hyperparameter representing the learning rate used in the update rule of optimize()
+    print_cost -- Set to true to print the cost every 100 iterations
+
+    Returns:
+    d -- dictionary containing information about the model.
+    """
+
+
+    # initialize parameters with zeros (≈ 1 line of code)
+    w, b = initialize_with_zeros(X_train.shape[0])
+
+    # Gradient descent (≈ 1 line of code)
+    parameters, grads, costs = optimize(w, b, X_train, Y_train, num_iterations, learning_rate, print_cost = False)
+
+    # Retrieve parameters w and b from dictionary "parameters"
+    w = parameters["w"]
+    b = parameters["b"]
+
+    # Predict test/train set examples
+    Y_prediction_test = predict(w,b,X_test)
+    Y_prediction_train = predict(w,b,X_train)
+
+    # Print train/test Errors
+    print("train accuracy: {} %".format(100 - np.mean(np.abs(Y_prediction_train - Y_train)) * 100))
+    print("test accuracy: {} %".format(100 - np.mean(np.abs(Y_prediction_test - Y_test)) * 100))
+
+
+    d = {"costs": costs,
+         "Y_prediction_test": Y_prediction_test,
+         "Y_prediction_train" : Y_prediction_train,
+         "w" : w,
+         "b" : b,
+         "learning_rate" : learning_rate,
+         "num_iterations": num_iterations}
+
+    return d
+```
+
+Now run the following to train the model:
+```python
+d = model(train_set_x, train_set_y, test_set_x, test_set_y, num_iterations = 2000, learning_rate = 0.005, print_cost = True)
+```
+train accuracy: 99.04306220095694 %
+test accuracy: 70.0 %
+
+This model is clearly overfitting to our data. But this can be reduced by using regularization.
+It will be fixed in the following models.
