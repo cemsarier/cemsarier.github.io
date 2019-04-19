@@ -28,12 +28,12 @@ plt.rcParams['image.cmap'] = 'gray'
 ## 2 - Outline
 
 To implement our deep neural network, we will introduce some helper functions.
-- Initialize the parameters for a two-layer network and for an  LL -layer neural network.
+- Initialize the parameters for a two-layer network and for an  L-layer neural network.
 - Implement the forward propagation module (shown in purple in the figure below).
-  - Complete the LINEAR part of a layer's forward propagation step (resulting in  Z[l]Z[l] ).
+  - Complete the LINEAR part of a layer's forward propagation step (resulting in  Z[l] ).
   - We give you the ACTIVATION function (relu/sigmoid).
   - Combine the previous two steps into a new [LINEAR->ACTIVATION] forward function.
-  - Stack the [LINEAR->RELU] forward function L-1 time (for layers 1 through L-1) and add a [LINEAR->SIGMOID] at the end (for the final layer  LL ). This gives you a new L_model_forward function.
+  - Stack the [LINEAR->RELU] forward function L-1 time (for layers 1 through L-1) and add a [LINEAR->SIGMOID] at the end (for the final layer  L). This gives you a new L_model_forward function.
 - Compute the loss.
 - Implement the backward propagation module (denoted in red in the figure below).
   - Complete the LINEAR part of a layer's backward propagation step.
@@ -44,11 +44,11 @@ To implement our deep neural network, we will introduce some helper functions.
 
 <img src="{{ site.url }}{{ site.baseurl }}/images/perceptron/p3_outline.png" alt="outline">
 
-*Note* that for every forward function, there is a corresponding backward function. That is why at every step of your forward module you will be storing some values in a cache. The cached values are useful for computing gradients. In the backpropagation module you will then use the cache to calculate the gradients.
+**Note** that for every forward function, there is a corresponding backward function. That is why at every step of your forward module you will be storing some values in a cache. The cached values are useful for computing gradients. In the backpropagation module you will then use the cache to calculate the gradients.
 
 ## Initialization
 
-- The model's structure is [LINEAR -> RELU]  ××  (L-1) -> LINEAR -> SIGMOID. I.e., it has  L−1L−1  layers using a ReLU activation function followed by an output layer with a sigmoid activation function.
+- The model's structure is [LINEAR -> RELU]  ×  (L-1) -> LINEAR -> SIGMOID. I.e., it has  L−1  layers using a ReLU activation function followed by an output layer with a sigmoid activation function.
 - We use random initialization for the weight matrices. ex. np.random.randn(shape) * 0.01.
 - We use zeros initialization for the biases. ex. np.zeros(shape).
 We will store  n[l] , the number of units in different layers, in a variable layer_dims. For example, the layer_dims for the "Planar Data classification model" would have been [2,4,1]: There were two inputs, one hidden layer with 4 hidden units, and an output layer with 1 output unit. Thus means W1's shape was (4,2), b1 was (4,1), W2 was (1,4) and b2 was (1,1). Now we will generalize this to  L  layers.
@@ -176,7 +176,7 @@ def compute_cost(AL, Y):
     return cost
 ```
 
-##Backward Propagation
+## Backward Propagation
 
 Just like with forward propagation, we will implement helper functions for backpropagation. Remember that back propagation is used to calculate the gradient of the loss function with respect to the parameters.
 
@@ -217,7 +217,7 @@ def linear_backward(dZ, cache):
 
     return dA_prev, dW, db
 ```
-Next, we will create a function that merges the two helper functions: *linear_backward* and the backward step for the activation *linear_activation_backward*.
+Next, we will create a function that merges the two helper functions: **linear_backward** and the backward step for the activation **linear_activation_backward**.
 
 ```python
 def linear_activation_backward(dA, cache, activation):
@@ -399,9 +399,9 @@ print ("test_x's shape: " + str(test_x.shape))
 train_x's shape: (12288, 209)
 test_x's shape: (12288, 50)
 
-*Note* that 12,288  equals  64×64×3 which is the size of one reshaped image vector.
+**Note** that 12,288  equals  64×64×3 which is the size of one reshaped image vector.
 
-*General Methodology:*
+**General Methodology:**
 1. Initialize parameters / Define hyperparameters
 2. Loop for num_iterations:
     a. Forward propagation
