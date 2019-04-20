@@ -32,14 +32,14 @@ To implement our deep neural network, we will introduce some helper functions.
 - Implement the forward propagation module (shown in purple in the figure below).
   - Complete the LINEAR part of a layer's forward propagation step (resulting in  Z[l] ).
   - We give you the ACTIVATION function (relu/sigmoid).
-  - Combine the previous two steps into a new [LINEAR->ACTIVATION] forward function.
-  - Stack the [LINEAR->RELU] forward function L-1 time (for layers 1 through L-1) and add a [LINEAR->SIGMOID] at the end (for the final layer  L). This gives you a new L_model_forward function.
+  - Combine the previous two steps into a new *[LINEAR->ACTIVATION]* forward function.
+  - Stack the *[LINEAR->RELU]* forward function L-1 time (for layers 1 through L-1) and add a *[LINEAR->SIGMOID]* at the end (for the final layer  L). This gives you a new **L_model_forward** function.
 - Compute the loss.
 - Implement the backward propagation module (denoted in red in the figure below).
   - Complete the LINEAR part of a layer's backward propagation step.
   - We give you the gradient of the ACTIVATE function (relu_backward/sigmoid_backward)
-  - Combine the previous two steps into a new [LINEAR->ACTIVATION] backward function.
-  - Stack [LINEAR->RELU] backward L-1 times and add [LINEAR->SIGMOID] backward in a new L_model_backward function
+  - Combine the previous two steps into a new *[LINEAR->ACTIVATION]* backward function.
+  - Stack *[LINEAR->RELU]* backward L-1 times and add *[LINEAR->SIGMOID]* backward in a new L_model_backward function
 - Finally update the parameters.
 
 <img src="{{ site.url }}{{ site.baseurl }}/images/perceptron/p3_outline.png" alt="outline">
@@ -48,7 +48,7 @@ To implement our deep neural network, we will introduce some helper functions.
 
 ## Initialization
 
-- The model's structure is [LINEAR -> RELU]  ×  (L-1) -> LINEAR -> SIGMOID. I.e., it has  L−1  layers using a ReLU activation function followed by an output layer with a sigmoid activation function.
+- The model's structure is *[LINEAR -> RELU]  ×  (L-1) -> LINEAR -> SIGMOID*. I.e., it has  L−1  layers using a ReLU activation function followed by an output layer with a sigmoid activation function.
 - We use random initialization for the weight matrices. ex. np.random.randn(shape) * 0.01.
 - We use zeros initialization for the biases. ex. np.zeros(shape).
 We will store  n[l] , the number of units in different layers, in a variable layer_dims. For example, the layer_dims for the "Planar Data classification model" would have been [2,4,1]: There were two inputs, one hidden layer with 4 hidden units, and an output layer with 1 output unit. Thus means W1's shape was (4,2), b1 was (4,1), W2 was (1,4) and b2 was (1,1). Now we will generalize this to  L  layers.
@@ -185,8 +185,8 @@ Just like with forward propagation, we will implement helper functions for backp
 Now, similar to forward propagation, we are going to build the backward propagation in three steps:
 
 1. LINEAR backward
-2. LINEAR -> ACTIVATION backward where ACTIVATION computes the derivative of either the ReLU or sigmoid activation
-3. [LINEAR -> RELU]  ×  (L-1) -> LINEAR -> SIGMOID backward (whole model)
+2. *LINEAR -> ACTIVATION* backward where ACTIVATION computes the derivative of either the ReLU or sigmoid activation
+3. *[LINEAR -> RELU]  ×  (L-1) -> LINEAR -> SIGMOID* backward (whole model)
 
 <img src="{{ site.url }}{{ site.baseurl }}/images/perceptron/lin_back.png" alt="backward propagation cache">
 
