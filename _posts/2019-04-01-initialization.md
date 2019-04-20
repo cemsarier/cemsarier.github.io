@@ -139,21 +139,21 @@ predictions_train = predict(train_X, train_Y, parameters)
 print ("On the test set:")
 predictions_test = predict(test_X, test_Y, parameters)
 ```
-- Cost after iteration 0: 0.6931471805599453.
-- Cost after iteration 1000: 0.6931471805599453.
-- Cost after iteration 2000: 0.6931471805599453.
-- Cost after iteration 3000: 0.6931471805599453.
-- Cost after iteration 4000: 0.6931471805599453.
-- Cost after iteration 5000: 0.6931471805599453.
-- Cost after iteration 6000: 0.6931471805599453.
-- Cost after iteration 7000: 0.6931471805599453.
-- Cost after iteration 8000: 0.6931471805599453.
-- Cost after iteration 9000: 0.6931471805599453.
-- Cost after iteration 10000: 0.6931471805599455.
-- Cost after iteration 11000: 0.6931471805599453.
-- Cost after iteration 12000: 0.6931471805599453.
-- Cost after iteration 13000: 0.6931471805599453.
-- Cost after iteration 14000: 0.6931471805599453.
+* Cost after iteration 0: 0.6931471805599453
+* Cost after iteration 1000: 0.6931471805599453
+* Cost after iteration 2000: 0.6931471805599453
+* Cost after iteration 3000: 0.6931471805599453
+* Cost after iteration 4000: 0.6931471805599453
+* Cost after iteration 5000: 0.6931471805599453
+* Cost after iteration 6000: 0.6931471805599453
+* Cost after iteration 7000: 0.6931471805599453
+* Cost after iteration 8000: 0.6931471805599453
+* Cost after iteration 9000: 0.6931471805599453
+* Cost after iteration 10000: 0.6931471805599455
+* Cost after iteration 11000: 0.6931471805599453
+* Cost after iteration 12000: 0.6931471805599453
+* Cost after iteration 13000: 0.6931471805599453
+* Cost after iteration 14000: 0.6931471805599453
 
 <img src="{{ site.url }}{{ site.baseurl }}/images/tuning/cost1.png" alt="zero init cost">
 - On the train set:
@@ -233,21 +233,21 @@ print ("On the test set:")
 predictions_test = predict(test_X, test_Y, parameters)
 ```
 
-- Cost after iteration 0: inf.
-- Cost after iteration 1000: 0.6237287551108738.
-- Cost after iteration 2000: 0.5981106708339466.
-- Cost after iteration 3000: 0.5638353726276827.
-- Cost after iteration 4000: 0.550152614449184.
-- Cost after iteration 5000: 0.5444235275228304.
-- Cost after iteration 6000: 0.5374184054630083.
-- Cost after iteration 7000: 0.47357131493578297.
-- Cost after iteration 8000: 0.39775634899580387.
-- Cost after iteration 9000: 0.3934632865981078.
-- Cost after iteration 10000: 0.39202525076484457.
-- Cost after iteration 11000: 0.38921493051297673.
-- Cost after iteration 12000: 0.38614221789840486.
-- Cost after iteration 13000: 0.38497849983013926.
-- Cost after iteration 14000: 0.38278397192120406.
+* Cost after iteration 0: inf.
+* Cost after iteration 1000: 0.6237287551108738.
+* Cost after iteration 2000: 0.5981106708339466.
+* Cost after iteration 3000: 0.5638353726276827.
+* Cost after iteration 4000: 0.550152614449184.
+* Cost after iteration 5000: 0.5444235275228304.
+* Cost after iteration 6000: 0.5374184054630083.
+* Cost after iteration 7000: 0.47357131493578297.
+* Cost after iteration 8000: 0.39775634899580387.
+* Cost after iteration 9000: 0.3934632865981078.
+* Cost after iteration 10000: 0.39202525076484457.
+* Cost after iteration 11000: 0.38921493051297673.
+* Cost after iteration 12000: 0.38614221789840486.
+* Cost after iteration 13000: 0.38497849983013926.
+* Cost after iteration 14000: 0.38278397192120406.
 
 <img src="{{ site.url }}{{ site.baseurl }}/images/tuning/cost2.png" alt="random init cost">
 
@@ -338,21 +338,21 @@ print ("On the test set:")
 predictions_test = predict(test_X, test_Y, parameters)
 ```
 
-- Cost after iteration 0: 0.8830537463419761.
-- Cost after iteration 1000: 0.6879825919728063.
-- Cost after iteration 2000: 0.6751286264523371.
-- Cost after iteration 3000: 0.6526117768893807.
-- Cost after iteration 4000: 0.6082958970572938.
-- Cost after iteration 5000: 0.5304944491717495.
-- Cost after iteration 6000: 0.4138645817071794.
-- Cost after iteration 7000: 0.3117803464844441.
-- Cost after iteration 8000: 0.23696215330322562.
-- Cost after iteration 9000: 0.18597287209206836.
-- Cost after iteration 10000: 0.1501555628037182.
-- Cost after iteration 11000: 0.12325079292273548.
-- Cost after iteration 12000: 0.09917746546525937.
-- Cost after iteration 13000: 0.0845705595402428.
-- Cost after iteration 14000: 0.07357895962677366.
+* Cost after iteration 0: 0.8830537463419761.
+* Cost after iteration 1000: 0.6879825919728063.
+* Cost after iteration 2000: 0.6751286264523371.
+* Cost after iteration 3000: 0.6526117768893807.
+* Cost after iteration 4000: 0.6082958970572938.
+* Cost after iteration 5000: 0.5304944491717495.
+* Cost after iteration 6000: 0.4138645817071794.
+* Cost after iteration 7000: 0.3117803464844441.
+* Cost after iteration 8000: 0.23696215330322562.
+* Cost after iteration 9000: 0.18597287209206836.
+* Cost after iteration 10000: 0.1501555628037182.
+* Cost after iteration 11000: 0.12325079292273548.
+* Cost after iteration 12000: 0.09917746546525937.
+* Cost after iteration 13000: 0.0845705595402428.
+* Cost after iteration 14000: 0.07357895962677366.
 
 <img src="{{ site.url }}{{ site.baseurl }}/images/tuning/cost3.png" alt="he init cost">
 
