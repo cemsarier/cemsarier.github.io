@@ -1,5 +1,5 @@
 ---
-title: "Different Initialization Techniques"
+title: "Comparison: Different Initialization Techniques"
 date: "2019-04-01"
 tages: [machine learning, initialization , data science]
 excerpt: "Machine Learning, Initialization, Data Science"
