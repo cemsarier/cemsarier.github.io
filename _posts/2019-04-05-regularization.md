@@ -443,7 +443,6 @@ plot_decision_boundary(lambda x: predict_dec(parameters, x.T), train_X, train_Y)
 
 Here are the results of our three models:
 
-model	train accuracy	test accuracy
 * 3-layer NN without regularization	has 95%	train and 91.5%  test accuracy.
 * 3-layer NN with L2-regularization has 94%	train and 93%  test accuracy.
-* 3-layer NN with dropout	has 93%	train and 95%  test accuracy.
+* 3-layer NN with dropout	has 93%	train and **95%**  test accuracy.
