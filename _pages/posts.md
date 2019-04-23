@@ -5,6 +5,8 @@ title: "Posts"
 author_profile: true
 ---
 
+Most of my blogs are technical blogs written mainly for my own reference. I’d be happy if any of you find them useful too.
+
 {% capture written_year %}'None'{% endcapture %}
 {% for post in site.posts %}
   {% capture year %}{{ post.date | date: '%Y' }}{% endcapture %}
