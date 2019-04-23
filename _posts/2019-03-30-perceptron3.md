@@ -1,13 +1,14 @@
 ---
+layout: post
 title: "Machine Learning Project: Building Deep Neural Network"
 date: "2019-03-30"
 tages: [machine learning, neural network, data science]
 excerpt: "Machine Learning, Perceptron, Data Science"
 categories:
--algorithms from scratch
--machine learning
--deep neural network
--classification
+- algorithms from scratch
+- machine learning
+- deep neural network
+- classification
 ---
 
 # Building Deep Neural Network

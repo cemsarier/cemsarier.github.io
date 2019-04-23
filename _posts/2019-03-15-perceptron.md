@@ -1,13 +1,14 @@
 ---
+layout: post
 title: "Machine Learning Project: Building Logictic Regression Model"
 date: "2019-03-15"
 tages: [machine learning, neural network, data science]
 excerpt: "Machine Learning, Perceptron, Data Science"
 categories:
--algorithms from scratch
--machine learning
--neural network
--logictic regression
+- algorithms from scratch
+- machine learning
+- neural network
+- logictic regression
 ---
 
 # Logistic Regression with a Neural Network mindset

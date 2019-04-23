@@ -1,13 +1,14 @@
 ---
+layout: post
 title: "Machine Learning Project: Planar data classification with one hidden layer"
 date: "2019-03-20"
 tages: [machine learning, neural network, data science]
 excerpt: "Machine Learning, Perceptron, Data Science"
 categories:
--algorithms from scratch
--machine learning
--neural network
--classicication
+- algorithms from scratch
+- machine learning
+- neural network
+- classicication
 ---
 
 # Planar data classification with one hidden layer
