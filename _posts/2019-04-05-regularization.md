@@ -1,9 +1,9 @@
 ---
-layout: post
 title: "Comparison: Different Regularization Techniques"
 date: "2019-04-05"
 tages: [machine learning, regularization , data science]
 excerpt: "Machine Learning, Regularization, Data Science"
+layout: post
 categories:
 - algorithms from scratch
 - comparison
