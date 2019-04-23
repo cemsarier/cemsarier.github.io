@@ -193,7 +193,7 @@ def initialize_velocity(parameters):
     # Initialize velocity
     for l in range(L):
         v["dW" + str(l+1)] = np.zeros((parameters["W" + str(l+1)].shape[0],parameters["W" + str(l+1)].shape[1]))
-        v["db" + str(l+1)] = np.zeros((parameters["b" + str(l+1)].shape[0],parameters["b" + str(l+1)].shape[1
+        v["db" + str(l+1)] = np.zeros((parameters["b" + str(l+1)].shape[0],parameters["b" + str(l+1)].shape[1]))
 
     return v
 ```
@@ -256,40 +256,340 @@ How do you choose β ?
 * Momentum takes past gradients into account to smooth out the steps of gradient descent. It can be applied with batch gradient descent, mini-batch gradient descent or stochastic gradient descent.
 * You have to tune a momentum hyperparameter  β  and a learning rate  α .
 
-## Adam
+## 4 - Adam
+
+Adam is one of the most effective optimization algorithms for training neural networks. It combines ideas from RMSProp and Momentum.
+
+**How does Adam work?**
+
+* It calculates an exponentially weighted average of past gradients, and stores it in variables  v  (before bias correction) and  v_corrected  (with bias correction).
+* It calculates an exponentially weighted average of the squares of the past gradients, and stores it in variables  s  (before bias correction) and  s_cprrected  (with bias correction).
+* It updates parameters in a direction based on combining information from "1" and "2".
+* The update rule is, for  l=1,...,L :
+
+<img src="{{ site.url }}{{ site.baseurl }}/images/tuning/opt_adam.png" alt="adam equation">
+
+where:
+
+- t counts the number of steps taken of Adam
+- L is the number of layers
+- β1  and  β2  are hyperparameters that control the two exponentially weighted averages.
+- α  is the learning rate
+- ε  is a very small number to avoid dividing by zero
 
 ```python
+def initialize_adam(parameters) :
+    """
+    Initializes v and s as two python dictionaries with:
+                - keys: "dW1", "db1", ..., "dWL", "dbL"
+                - values: numpy arrays of zeros of the same shape as the corresponding gradients/parameters.
 
+    Arguments:
+    parameters -- python dictionary containing your parameters.
+                    parameters["W" + str(l)] = Wl
+                    parameters["b" + str(l)] = bl
+
+    Returns:
+    v -- python dictionary that will contain the exponentially weighted average of the gradient.
+                    v["dW" + str(l)] = ...
+                    v["db" + str(l)] = ...
+    s -- python dictionary that will contain the exponentially weighted average of the squared gradient.
+                    s["dW" + str(l)] = ...
+                    s["db" + str(l)] = ...
+
+    """
+
+    L = len(parameters) // 2 # number of layers in the neural networks
+    v = {}
+    s = {}
+
+    # Initialize v, s. Input: "parameters". Outputs: "v, s".
+    for l in range(L):
+        v["dW" + str(l+1)] = np.zeros((parameters["W" + str(l+1)].shape[0],parameters["W" + str(l+1)].shape[1]))
+        v["db" + str(l+1)] = np.zeros((parameters["b" + str(l+1)].shape[0],parameters["b" + str(l+1)].shape[1]))
+        s["dW" + str(l+1)] = np.zeros((parameters["W" + str(l+1)].shape[0],parameters["W" + str(l+1)].shape[1]))
+        s["db" + str(l+1)] = np.zeros((parameters["b" + str(l+1)].shape[0],parameters["b" + str(l+1)].shape[1]))
+
+    return v, s
 ```
 
 ```python
+def update_parameters_with_adam(parameters, grads, v, s, t, learning_rate = 0.01,
+                                beta1 = 0.9, beta2 = 0.999,  epsilon = 1e-8):
+    """
+    Update parameters using Adam
 
+    Arguments:
+    parameters -- python dictionary containing your parameters:
+                    parameters['W' + str(l)] = Wl
+                    parameters['b' + str(l)] = bl
+    grads -- python dictionary containing your gradients for each parameters:
+                    grads['dW' + str(l)] = dWl
+                    grads['db' + str(l)] = dbl
+    v -- Adam variable, moving average of the first gradient, python dictionary
+    s -- Adam variable, moving average of the squared gradient, python dictionary
+    learning_rate -- the learning rate, scalar.
+    beta1 -- Exponential decay hyperparameter for the first moment estimates
+    beta2 -- Exponential decay hyperparameter for the second moment estimates
+    epsilon -- hyperparameter preventing division by zero in Adam updates
+
+    Returns:
+    parameters -- python dictionary containing your updated parameters
+    v -- Adam variable, moving average of the first gradient, python dictionary
+    s -- Adam variable, moving average of the squared gradient, python dictionary
+    """
+
+    L = len(parameters) // 2                 # number of layers in the neural networks
+    v_corrected = {}                         # Initializing first moment estimate, python dictionary
+    s_corrected = {}                         # Initializing second moment estimate, python dictionary
+
+    # Perform Adam update on all parameters
+    for l in range(L):
+        # Moving average of the gradients. Inputs: "v, grads, beta1". Output: "v".
+        v["dW" + str(l+1)] = (beta1*v["dW" + str(l+1)])+((1-beta1)*grads['dW' + str(l+1)])
+        v["db" + str(l+1)] = (beta1*v["db" + str(l+1)])+((1-beta1)*grads['db' + str(l+1)])
+
+        # Compute bias-corrected first moment estimate. Inputs: "v, beta1, t". Output: "v_corrected".
+        v_corrected["dW" + str(l+1)] = v["dW" + str(l+1)]/(1-(beta1**t))
+        v_corrected["db" + str(l+1)] = v["db" + str(l+1)]/(1-(beta1**t))
+
+        # Moving average of the squared gradients. Inputs: "s, grads, beta2". Output: "s".
+        #(np.multiply(parameters['W' + str(l+1)],parameters['W' + str(l+1)]))
+        s["dW" + str(l+1)] = (beta2*s["dW" + str(l+1)])+((1-beta2)*((grads['dW' + str(l+1)])**2))
+        s["db" + str(l+1)] = (beta2*s["db" + str(l+1)])+((1-beta2)*((grads['db' + str(l+1)])**2))
+
+
+        # Compute bias-corrected second raw moment estimate. Inputs: "s, beta2, t". Output: "s_corrected".
+        s_corrected["dW" + str(l+1)] = s["dW" + str(l+1)]/(1-(beta2**t))
+        s_corrected["db" + str(l+1)] = s["db" + str(l+1)]/(1-(beta2**t))
+
+
+        # Update parameters. Inputs: "parameters, learning_rate, v_corrected, s_corrected, epsilon". Output: "parameters".
+        parameters["W" + str(l+1)] = parameters["W" + str(l+1)] - learning_rate*(v_corrected["dW" + str(l+1)]/(np.sqrt(s_corrected["dW" + str(l+1)])+epsilon))
+        parameters["b" + str(l+1)] = parameters["b" + str(l+1)] - learning_rate*(v_corrected["db" + str(l+1)]/(np.sqrt(s_corrected["db" + str(l+1)])+epsilon))
+
+    return parameters, v, s
 ```
+
+## 5 - Model with Optimization Algorithms
+
+Lets use the following "moons" dataset to test the different optimization methods. (The dataset is named "moons" because the data from each of the two classes looks a bit like a crescent-shaped moon.)
+
 
 ```python
-
+train_X, train_Y = load_dataset()
 ```
+
+<img src="{{ site.url }}{{ site.baseurl }}/images/tuning/moons_data.png" alt="moons dataset">
+
+We have already implemented a 3-layer neural network. You will train it with:
+- Mini-batch **Gradient Descent**: it will call your function:
+    - `update_parameters_with_gd()`
+- Mini-batch **Momentum**: it will call your functions:
+    - `initialize_velocity()` and `update_parameters_with_momentum()`
+- Mini-batch **Adam**: it will call your functions:
+    - `initialize_adam()` and `update_parameters_with_adam()`
 
 ```python
+def model(X, Y, layers_dims, optimizer, learning_rate = 0.0007, mini_batch_size = 64, beta = 0.9,
+          beta1 = 0.9, beta2 = 0.999,  epsilon = 1e-8, num_epochs = 10000, print_cost = True):
+    """
+    3-layer neural network model which can be run in different optimizer modes.
 
+    Arguments:
+    X -- input data, of shape (2, number of examples)
+    Y -- true "label" vector (1 for blue dot / 0 for red dot), of shape (1, number of examples)
+    layers_dims -- python list, containing the size of each layer
+    learning_rate -- the learning rate, scalar.
+    mini_batch_size -- the size of a mini batch
+    beta -- Momentum hyperparameter
+    beta1 -- Exponential decay hyperparameter for the past gradients estimates
+    beta2 -- Exponential decay hyperparameter for the past squared gradients estimates
+    epsilon -- hyperparameter preventing division by zero in Adam updates
+    num_epochs -- number of epochs
+    print_cost -- True to print the cost every 1000 epochs
+
+    Returns:
+    parameters -- python dictionary containing your updated parameters
+    """
+
+    L = len(layers_dims)             # number of layers in the neural networks
+    costs = []                       # to keep track of the cost
+    t = 0                            # initializing the counter required for Adam update
+    seed = 10                        # For grading purposes, so that your "random" minibatches are the same as ours
+
+    # Initialize parameters
+    parameters = initialize_parameters(layers_dims)
+
+    # Initialize the optimizer
+    if optimizer == "gd":
+        pass # no initialization required for gradient descent
+    elif optimizer == "momentum":
+        v = initialize_velocity(parameters)
+    elif optimizer == "adam":
+        v, s = initialize_adam(parameters)
+
+    # Optimization loop
+    for i in range(num_epochs):
+
+        # Define the random minibatches. We increment the seed to reshuffle differently the dataset after each epoch
+        seed = seed + 1
+        minibatches = random_mini_batches(X, Y, mini_batch_size, seed)
+
+        for minibatch in minibatches:
+
+            # Select a minibatch
+            (minibatch_X, minibatch_Y) = minibatch
+
+            # Forward propagation
+            a3, caches = forward_propagation(minibatch_X, parameters)
+
+            # Compute cost
+            cost = compute_cost(a3, minibatch_Y)
+
+            # Backward propagation
+            grads = backward_propagation(minibatch_X, minibatch_Y, caches)
+
+            # Update parameters
+            if optimizer == "gd":
+                parameters = update_parameters_with_gd(parameters, grads, learning_rate)
+            elif optimizer == "momentum":
+                parameters, v = update_parameters_with_momentum(parameters, grads, v, beta, learning_rate)
+            elif optimizer == "adam":
+                t = t + 1 # Adam counter
+                parameters, v, s = update_parameters_with_adam(parameters, grads, v, s,
+                                                               t, learning_rate, beta1, beta2,  epsilon)
+
+        # Print the cost every 1000 epoch
+        if print_cost and i % 1000 == 0:
+            print ("Cost after epoch %i: %f" %(i, cost))
+        if print_cost and i % 100 == 0:
+            costs.append(cost)
+
+    # plot the cost
+    plt.plot(costs)
+    plt.ylabel('cost')
+    plt.xlabel('epochs (per 100)')
+    plt.title("Learning rate = " + str(learning_rate))
+    plt.show()
+
+    return parameters
 ```
+
+### 5.1 Mini-batch Gradient descent
+
+Lets run the following code to see how the model does with mini-batch gradient descent.
+
+* Cost after epoch 0: 0.690736
+* Cost after epoch 1000: 0.685273
+* Cost after epoch 2000: 0.647072
+* Cost after epoch 3000: 0.619525
+* Cost after epoch 4000: 0.576584
+* Cost after epoch 5000: 0.607243
+* Cost after epoch 6000: 0.529403
+* Cost after epoch 7000: 0.460768
+* Cost after epoch 8000: 0.465586
+* Cost after epoch 9000: 0.464518
 
 ```python
+# train 3-layer model
+layers_dims = [train_X.shape[0], 5, 2, 1]
+parameters = model(train_X, train_Y, layers_dims, optimizer = "gd")
 
+# Predict
+predictions = predict(train_X, train_Y, parameters)
+
+# Plot decision boundary
+plt.title("Model with Gradient Descent optimization")
+axes = plt.gca()
+axes.set_xlim([-1.5,2.5])
+axes.set_ylim([-1,1.5])
+plot_decision_boundary(lambda x: predict_dec(parameters, x.T), train_X, train_Y)
 ```
+
+<img src="{{ site.url }}{{ site.baseurl }}/images/tuning/opt_cost1.png" alt="mini-batch gd cost">
+
+- Accuracy: 0.796666666667
+
+<img src="{{ site.url }}{{ site.baseurl }}/images/tuning/opt_model1.png" alt="mini-batch gd model">
+
+### 5.2 - Mini-batch gradient descent with momentum
+
 
 ```python
+# train 3-layer model
+layers_dims = [train_X.shape[0], 5, 2, 1]
+parameters = model(train_X, train_Y, layers_dims, beta = 0.9, optimizer = "momentum")
 
+# Predict
+predictions = predict(train_X, train_Y, parameters)
+
+# Plot decision boundary
+plt.title("Model with Momentum optimization")
+axes = plt.gca()
+axes.set_xlim([-1.5,2.5])
+axes.set_ylim([-1,1.5])
+plot_decision_boundary(lambda x: predict_dec(parameters, x.T), train_X, train_Y)
 ```
+
+* Cost after epoch 0: 0.690741
+* Cost after epoch 1000: 0.685341
+* Cost after epoch 2000: 0.647145
+* Cost after epoch 3000: 0.619594
+* Cost after epoch 4000: 0.576665
+* Cost after epoch 5000: 0.607324
+* Cost after epoch 6000: 0.529476
+* Cost after epoch 7000: 0.460936
+* Cost after epoch 8000: 0.465780
+* Cost after epoch 9000: 0.464740
+
+<img src="{{ site.url }}{{ site.baseurl }}/images/tuning/opt_cost2.png" alt="mini-batch gd with momentum cost">
+
+- Accuracy: 0.796666666667
+
+<img src="{{ site.url }}{{ site.baseurl }}/images/tuning/opt_model2.png" alt="mini-batch gd with momentum  model">
+
+### 5.3 - Mini-batch with Adam mode
 
 ```python
+# train 3-layer model
+layers_dims = [train_X.shape[0], 5, 2, 1]
+parameters = model(train_X, train_Y, layers_dims, optimizer = "adam")
 
+# Predict
+predictions = predict(train_X, train_Y, parameters)
+
+# Plot decision boundary
+plt.title("Model with Adam optimization")
+axes = plt.gca()
+axes.set_xlim([-1.5,2.5])
+axes.set_ylim([-1,1.5])
+plot_decision_boundary(lambda x: predict_dec(parameters, x.T), train_X, train_Y)
 ```
 
-```python
+* Cost after epoch 0: 0.690552
+* Cost after epoch 1000: 0.185567
+* Cost after epoch 2000: 0.150852
+* Cost after epoch 3000: 0.074454
+* Cost after epoch 4000: 0.125936
+* Cost after epoch 5000: 0.104235
+* Cost after epoch 6000: 0.100552
+* Cost after epoch 7000: 0.031601
+* Cost after epoch 8000: 0.111709
+* Cost after epoch 9000: 0.197648
 
-```
+<img src="{{ site.url }}{{ site.baseurl }}/images/tuning/opt_cost3.png" alt="mini-batch gd with adam cost">
 
-```python
+- Accuracy: 0.94
 
-```
+<img src="{{ site.url }}{{ site.baseurl }}/images/tuning/opt_model3.png" alt="mini-batch gd with adam  model">
+
+### 5.4 Summary
+
+Momentum usually helps, but given the small learning rate and the simplistic dataset, its impact is almost negligeable. Also, the huge oscillations you see in the cost come from the fact that some minibatches are more difficult thans others for the optimization algorithm.
+
+Adam on the other hand, clearly outperforms mini-batch gradient descent and Momentum. If you run the model for more epochs on this simple dataset, all three methods will lead to very good results. However, you've seen that Adam converges a lot faster.
+
+Some advantages of Adam include:
+- Relatively low memory requirements (though higher than gradient descent and gradient descent with momentum)
+- Usually works well even with little tuning of hyperparameters (except α)
