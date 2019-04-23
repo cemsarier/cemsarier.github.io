@@ -480,17 +480,6 @@ def model(X, Y, layers_dims, optimizer, learning_rate = 0.0007, mini_batch_size 
 
 Lets run the following code to see how the model does with mini-batch gradient descent.
 
-* Cost after epoch 0: 0.690736
-* Cost after epoch 1000: 0.685273
-* Cost after epoch 2000: 0.647072
-* Cost after epoch 3000: 0.619525
-* Cost after epoch 4000: 0.576584
-* Cost after epoch 5000: 0.607243
-* Cost after epoch 6000: 0.529403
-* Cost after epoch 7000: 0.460768
-* Cost after epoch 8000: 0.465586
-* Cost after epoch 9000: 0.464518
-
 ```python
 # train 3-layer model
 layers_dims = [train_X.shape[0], 5, 2, 1]
@@ -506,6 +495,17 @@ axes.set_xlim([-1.5,2.5])
 axes.set_ylim([-1,1.5])
 plot_decision_boundary(lambda x: predict_dec(parameters, x.T), train_X, train_Y)
 ```
+
+* Cost after epoch 0: 0.690736
+* Cost after epoch 1000: 0.685273
+* Cost after epoch 2000: 0.647072
+* Cost after epoch 3000: 0.619525
+* Cost after epoch 4000: 0.576584
+* Cost after epoch 5000: 0.607243
+* Cost after epoch 6000: 0.529403
+* Cost after epoch 7000: 0.460768
+* Cost after epoch 8000: 0.465586
+* Cost after epoch 9000: 0.464518
 
 <img src="{{ site.url }}{{ site.baseurl }}/images/tuning/opt_cost1.png" alt="mini-batch gd cost">
 
@@ -590,6 +590,6 @@ Momentum usually helps, but given the small learning rate and the simplistic dat
 
 Adam on the other hand, clearly outperforms mini-batch gradient descent and Momentum. If you run the model for more epochs on this simple dataset, all three methods will lead to very good results. However, you've seen that Adam converges a lot faster.
 
-Some advantages of Adam include:
+Some advantages of **Adam** include:
 - Relatively low memory requirements (though higher than gradient descent and gradient descent with momentum)
 - Usually works well even with little tuning of hyperparameters (except α)
