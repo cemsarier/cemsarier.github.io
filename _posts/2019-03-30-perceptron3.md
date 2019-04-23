@@ -1,5 +1,4 @@
 ---
-layout: post
 title: "Machine Learning Project: Building Deep Neural Network"
 date: "2019-03-30"
 tages: [machine learning, neural network, data science]
