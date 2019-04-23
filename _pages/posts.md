@@ -1,10 +1,8 @@
 ---
-layout: archieve
+layout: archive
 permalink: /posts/
 title: "Posts"
-author_profile: True
-header:
-  image: "/images/header1.jpg"
+author_profile: true
 ---
 
 {% capture written_year %}'None'{% endcapture %}
