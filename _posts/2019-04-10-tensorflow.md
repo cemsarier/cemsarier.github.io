@@ -325,3 +325,5 @@ parameters = model(X_train, Y_train, X_test, Y_test)
 **Insights:**
 
 - Our model seems big enough to fit the training set well. However, given the difference between train and test accuracy, we could try to add L2 or dropout regularization to reduce overfitting.
+
+*The dataset in this post is taken from Andrew Ng's course on deep learning.*
