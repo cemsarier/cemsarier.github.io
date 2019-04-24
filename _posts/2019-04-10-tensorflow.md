@@ -90,7 +90,7 @@ def create_placeholders(n_x, n_y):
     return X, Y
 ```
 
-## Initialize Paramters
+## Initialize Parameters
 
 We are going use Xavier Initialization for weights and Zero Initialization for biases.
 
