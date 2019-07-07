@@ -1,5 +1,5 @@
 ---
-title: "Custom K_Means"
+title: "Custom KMeans Algorithm"
 date: "2019-06-01"
 tages: [machine learning, clustering , k means]
 excerpt: "Machine Learning, K Means, Clustering"
