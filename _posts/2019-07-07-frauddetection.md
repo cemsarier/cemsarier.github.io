@@ -103,10 +103,15 @@ amount_df=pd.DataFrame(amount_ss,columns=['Amount'])
 amount_df.head()
 ```
 *Amount*
+
 -0  0.244964
+
 -1 -0.342475
+
 -2  1.160686
+
 -3  0.140534
+
 -4 -0.073403
 
 
@@ -183,15 +188,25 @@ lgbm= lgb.train(params,lgb_train,num_round,valid_sets=[lgb_train,lgb_valid],verb
 ```
 
 -Training until validation scores don't improve for 4000 rounds.
+
 -[500]   training's auc: 1       valid_1's auc: 0.980957
+
 -[1000]  training's auc: 1       valid_1's auc: 0.983403
+
 -[1500]  training's auc: 1       valid_1's auc: 0.983669
+
 -[2000]  training's auc: 1       valid_1's auc: 0.983301
+
 -[2500]  training's auc: 1       valid_1's auc: 0.982314
+
 -[3000]  training's auc: 1       valid_1's auc: 0.982706
+
 -[3500]  training's auc: 1       valid_1's auc: 0.983112
+
 -[4000]  training's auc: 1       valid_1's auc: 0.983454
+
 -Early stopping, best iteration is:
+
 -[108]   training's auc: 1       valid_1's auc: 0.940468
 
 ```python
@@ -221,11 +236,11 @@ plt.xlabel('Predicted Class')
 plt.ylabel('True Class')
 plt.show()
 ```
-<img src="{{ site.url }}{{ site.baseurl }}/images/fd/fd3.png" alt="confusion matrix">
+<img src="{{ site.url }}{{ site.baseurl }}/images/fd/fd4.png" alt="confusion matrix">
 
 ```python
 #printing the classification report
 print(classification_report(y_test,lgbm_predict))
 ```
 
-<img src="{{ site.url }}{{ site.baseurl }}/images/fd/fd3.png" alt="results">
+<img src="{{ site.url }}{{ site.baseurl }}/images/fd/fd5.png" alt="results">
