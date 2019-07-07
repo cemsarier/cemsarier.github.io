@@ -88,69 +88,6 @@ correlations=correlations[correlations['level_0']!=correlations['level_1']]
 print(correlations)
 ```
 
-level_0 level_1             0
-0       V13     V20  2.345665e-18
-1       V20     V13  2.345665e-18
-2        V6     V15  6.368111e-18
-3       V15      V6  6.368111e-18
-4       V14     V26  6.580254e-18
-5       V26     V14  6.580254e-18
-6       V24      V2  8.142354e-18
-7        V2     V24  8.142354e-18
-8       V22     V24  1.150829e-17
-9       V24     V22  1.150829e-17
-10      V21     V14  1.634141e-17
-11      V14     V21  1.634141e-17
-12       V4      V1  1.755316e-17
-13       V1      V4  1.755316e-17
-14       V7     V15  1.936832e-17
-15      V15      V7  1.936832e-17
-16      V15     V21  1.947458e-17
-17      V21     V15  1.947458e-17
-18       V3     V23  2.115206e-17
-19      V23      V3  2.115206e-17
-20      V24      V7  2.589727e-17
-21       V7     V24  2.589727e-17
-22      V22     V13  2.659710e-17
-23      V13     V22  2.659710e-17
-24      V19     V10  2.663038e-17
-25      V10     V19  2.663038e-17
-26      V22      V9  2.871855e-17
-27       V9     V22  2.871855e-17
-28       V3     V21  2.971969e-17
-29      V21      V3  2.971969e-17
-..      ...     ...           ...
-782  Amount     V25  4.783686e-02
-783     V25  Amount  4.783686e-02
-784     V19  Amount  5.615079e-02
-785  Amount     V19  5.615079e-02
-786  Amount     V22  6.480065e-02
-787     V22  Amount  6.480065e-02
-788      V4  Amount  9.873167e-02
-789  Amount      V4  9.873167e-02
-790  Amount     V10  1.015021e-01
-791     V10  Amount  1.015021e-01
-792  Amount      V8  1.030791e-01
-793      V8  Amount  1.030791e-01
-794  Amount     V21  1.059989e-01
-795     V21  Amount  1.059989e-01
-796     V23  Amount  1.126326e-01
-797  Amount     V23  1.126326e-01
-798  Amount      V3  2.108805e-01
-799      V3  Amount  2.108805e-01
-800      V6  Amount  2.159812e-01
-801  Amount      V6  2.159812e-01
-802  Amount      V1  2.277087e-01
-803      V1  Amount  2.277087e-01
-804     V20  Amount  3.394034e-01
-805  Amount     V20  3.394034e-01
-806      V5  Amount  3.863563e-01
-807  Amount      V5  3.863563e-01
-808  Amount      V7  3.973113e-01
-809      V7  Amount  3.973113e-01
-810      V2  Amount  5.314089e-01
-811  Amount      V2  5.314089e-01
-
 
 Correlations between the attributes are very small.
 
@@ -165,12 +102,12 @@ amount_ss=ss.fit_transform(amount)
 amount_df=pd.DataFrame(amount_ss,columns=['Amount'])
 amount_df.head()
 ```
-Amount
-0  0.244964
-1 -0.342475
-2  1.160686
-3  0.140534
-4 -0.073403
+*Amount*
+-0  0.244964
+-1 -0.342475
+-2  1.160686
+-3  0.140534
+-4 -0.073403
 
 
 ```python
@@ -245,17 +182,17 @@ num_round=5000
 lgbm= lgb.train(params,lgb_train,num_round,valid_sets=[lgb_train,lgb_valid],verbose_eval=500,early_stopping_rounds = 4000)
 ```
 
-Training until validation scores don't improve for 4000 rounds.
-[500]   training's auc: 1       valid_1's auc: 0.980957
-[1000]  training's auc: 1       valid_1's auc: 0.983403
-[1500]  training's auc: 1       valid_1's auc: 0.983669
-[2000]  training's auc: 1       valid_1's auc: 0.983301
-[2500]  training's auc: 1       valid_1's auc: 0.982314
-[3000]  training's auc: 1       valid_1's auc: 0.982706
-[3500]  training's auc: 1       valid_1's auc: 0.983112
-[4000]  training's auc: 1       valid_1's auc: 0.983454
-Early stopping, best iteration is:
-[108]   training's auc: 1       valid_1's auc: 0.940468
+-Training until validation scores don't improve for 4000 rounds.
+-[500]   training's auc: 1       valid_1's auc: 0.980957
+-[1000]  training's auc: 1       valid_1's auc: 0.983403
+-[1500]  training's auc: 1       valid_1's auc: 0.983669
+-[2000]  training's auc: 1       valid_1's auc: 0.983301
+-[2500]  training's auc: 1       valid_1's auc: 0.982314
+-[3000]  training's auc: 1       valid_1's auc: 0.982706
+-[3500]  training's auc: 1       valid_1's auc: 0.983112
+-[4000]  training's auc: 1       valid_1's auc: 0.983454
+-Early stopping, best iteration is:
+-[108]   training's auc: 1       valid_1's auc: 0.940468
 
 ```python
 #Model performance on test data
@@ -291,11 +228,4 @@ plt.show()
 print(classification_report(y_test,lgbm_predict))
 ```
 
-precision    recall  f1-score   support
-
-0       1.00      1.00      1.00     71083
-1       0.81      0.82      0.81       119
-
-micro avg       1.00      1.00      1.00     71202
-macro avg       0.90      0.91      0.91     71202
-weighted avg       1.00      1.00      1.00     71202
+<img src="{{ site.url }}{{ site.baseurl }}/images/fd/fd3.png" alt="results">
