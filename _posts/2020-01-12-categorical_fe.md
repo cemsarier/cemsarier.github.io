@@ -61,31 +61,30 @@ my_df = pd.concat([train, test])
 my_df.isnull().sum()
 ```
 
-bin_0      29795
-bin_1      30041
-bin_2      29902
-bin_3      29965
-bin_4      29998
-day        29977
-month      29972
-nom_0      30314
-nom_1      30103
-nom_2      30214
-nom_3      30297
-nom_4      30028
-nom_5      29690
-nom_6      30143
-nom_7      30006
-nom_8      29711
-nom_9      30133
-ord_0      30181
-ord_1      30208
-ord_2      30180
-ord_3      29969
-ord_4      29863
-ord_5      29760
-target    400000
-dtype: int64
+- bin_0      29795
+- bin_1      30041
+- bin_3      29965
+- bin_4      29998
+- day        29977
+- month      29972
+- nom_0      30314
+- nom_1      30103
+- nom_2      30214
+- nom_3      30297
+- nom_4      30028
+- nom_5      29690
+- nom_6      30143
+- nom_7      30006
+- nom_8      29711
+- nom_9      30133
+- ord_0      30181
+- ord_1      30208
+- ord_2      30180
+- ord_3      29969
+- ord_4      29863
+- ord_5      29760
+- target    400000
+- dtype: int64
 
 # Preprocessing
 
@@ -156,30 +155,30 @@ Now check the missing values.
 my_df.isnull().sum()
 ```
 
-bin_0          0
-bin_1          0
-bin_2          0
-bin_3          0
-bin_4          0
-day            0
-month          0
-nom_0          0
-nom_1          0
-nom_2          0
-nom_3          0
-nom_4          0
-nom_5          0
-nom_6          0
-nom_7          0
-nom_8          0
-nom_9          0
-ord_0          0
-ord_1          0
-ord_2          0
-ord_3          0
-ord_4          0
-ord_5          0
-target    400000
+- bin_0          0
+- bin_1          0
+- bin_2          0
+- bin_3          0
+- bin_4          0
+- day            0
+- month          0
+- nom_0          0
+- nom_1          0
+- nom_2          0
+- nom_3          0
+- nom_4          0
+- nom_5          0
+- nom_6          0
+- nom_7          0
+- nom_8          0
+- nom_9          0
+- ord_0          0
+- ord_1          0
+- ord_2          0
+- ord_3          0
+- ord_4          0
+- ord_5          0
+- target    400000
 
 
 No missing values left except for test set's target. Now, lets encode the remaining variables. I will convert ordinal ones with ordinal encoder. It will assign 1,2,3... according to alphabetic order of string variables. Note that ord_4 and ord_5 include both upper and lower case letters. They might include information. So lets use ordinal encoder on them too.
@@ -197,11 +196,11 @@ for category in ["nom_5","nom_6","nom_7","nom_8","nom_9"]:
     print("{} has {} unique values".format(category,len(np.unique(my_df[category]))))
 ```
 
-nom_5 has 1220 unique values
-nom_6 has 1520 unique values
-nom_7 has 222 unique values
-nom_8 has 222 unique values
-nom_9 has 2218 unique values
+- nom_5 has 1220 unique values
+- nom_6 has 1520 unique values
+- nom_7 has 222 unique values
+- nom_8 has 222 unique values
+- nom_9 has 2218 unique values
 
 
 nom_7 and nom_8 has lower dimension. We can use pandas' dummy encoder on them. If we use it on all, it will increase the width of our train set too much and it will create bugs/errors on direct model fitting. This way still performs well. We will use another encoding for high-dim variables later.
@@ -317,34 +316,11 @@ lr_params = {'solver': 'lbfgs', 'C':0.1, 'max_iter':500}
 results = run_cv_model(train, test, target, runLR, lr_params, auc, 'lr')
 ```
 
-Started lr fold 1/5
-Train LR
-Predict 1/2
-Predict 2/2
-lr cv score 1: 0.7844204265213018
-Started lr fold 2/5
-Train LR
-Predict 1/2
-Predict 2/2
-lr cv score 2: 0.7848292810796071
-Started lr fold 3/5
-Train LR
-Predict 1/2
-Predict 2/2
-lr cv score 3: 0.7853701511296699
-Started lr fold 4/5
-Train LR
-Predict 1/2
-Predict 2/2
-lr cv score 4: 0.7853865447776116
-Started lr fold 5/5
-Train LR
-Predict 1/2
-Predict 2/2
-lr cv score 5: 0.7847225367977033
-lr cv scores : [0.7844204265213018, 0.7848292810796071, 0.7853701511296699, 0.7853865447776116, 0.7847225367977033]
-lr cv mean score : 0.7849457880611789
-lr cv std score : 0.0003778280688249727
+
+- lr cv score 5: 0.7847225367977033
+- lr cv scores : [0.7844204265213018, 0.7848292810796071, 0.7853701511296699, 0.7853865447776116, 0.7847225367977033]
+- lr cv mean score : 0.7849457880611789
+- lr cv std score : 0.0003778280688249727
 
 Our mean CV value is 78,5. For this much feature engineering, it is sufficient I suppose :) Let's submit the results.
 
