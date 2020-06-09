@@ -9,7 +9,7 @@ categories:
 - Scorecard
 ---
 
-#About
+# About
 
 The following WOE binning class is by far the most stable woe binning algorithm I have ever used. I get it from https://github.com/PedroHBM/woe-monotonic-binning
 
