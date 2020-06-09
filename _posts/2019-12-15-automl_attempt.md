@@ -18,7 +18,7 @@ In this notebook, I will share a small AutoML class that I wrote last week. I am
 
 Now what this class will do is:
 
-1. It will Import the data and explore it. It will give you info about missing values and the distribution of variables.
+1. It will **Import the data** and explore it. It will give you info about missing values and the distribution of variables.
 2. It has some utility functions, such as removing variables.
 3. It has a outlier detection function. Given a number, for example 2, it will determine the rows that has more than 2 outliers. Removing them is optional. This function uses Tukey method and is taken from https://www.kaggle.com/yassineghouzam/titanic-top-4-with-ensemble-modeling
 4. It has null value filling option. For a given threshold, if a column has more than %thresh null values, it fills "None" for categoric variables, and it drops the numeric feature. For this dataset, that is suitable. Below that threshold, it fills numeric rows with similar values by performing groupby and median. For the categoric that are below the threshold, it fills with mode.
