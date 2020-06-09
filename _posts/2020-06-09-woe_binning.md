@@ -1,5 +1,5 @@
 ---
-title: "Monotonic WOE Binning Algorith for Credit Scoring"
+title: "Monotonic WOE Binning Algorithm for Credit Scoring"
 date: "2020-06-09"
 tages: [algorithm, scorecard , credit scoring]
 excerpt: "Algorithm, Credit Scoring, Scorecard"
@@ -12,6 +12,7 @@ categories:
 #About
 
 The following WOE binning class is by far the most stable woe binning algorithm I have ever used. I get it from https://github.com/PedroHBM/woe-monotonic-binning
+
 And it is based on this paper: https://www.researchgate.net/publication/322520135_Monotone_optimal_binning_algorithm_for_credit_risk_modeling.
 
 The following rules are important for binning in credit scoring applications:

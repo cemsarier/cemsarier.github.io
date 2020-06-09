@@ -9,15 +9,17 @@ categories:
 - Scorecard
 ---
 
+# Introduction
+
 In credit scoring, we tend to decrease the size of the feature set if our dataframe's width is large. In most of the cases, the feature set has more than 1000 variables. The last time I prepared a scorecard, I had 3500 features initially. So, we have to reduce this number <100. The most common approach to this is the following:
 
-Variable clustering method: Popular data mining softwares like SAS Enterprise Miner supports this option and it works pretty well. The main principle of this algorithm is it groups the variables by R^2 values. Each group has several features with high in-group correlation and low cross-group correlation. So, we end up with feature clusters where the most similar features stick together. After this, we select the feature with highest R^2 value in each group so that we eliminate the other in-group features that are correlated with it. If we have 30 groups of features, we will end up with 30 strong features that have low correlation between them, which is what we wanted.
+**Variable clustering method:** Popular data mining softwares like SAS Enterprise Miner supports this option and it works pretty well. The main principle of this algorithm is it groups the variables by R^2 values. Each group has several features with high in-group correlation and low cross-group correlation. So, we end up with feature clusters where the most similar features stick together. After this, we select the feature with highest R^2 value in each group so that we eliminate the other in-group features that are correlated with it. If we have 30 groups of features, we will end up with 30 strong features that have low correlation between them, which is what we wanted.
 
 However, I suggest you to check the in-group correlations by yourself because sometimes you might eliminate a very strong feature even though it is correlated with another one.
 
 Also, before you perform this, don't forget to eliminate 100% target-correlated variables. Actually, I set the threshold to 98%.
 
-Here is the algorith.
+Here is the algorithm:
 
 
 
