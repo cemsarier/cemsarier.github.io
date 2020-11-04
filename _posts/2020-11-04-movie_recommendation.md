@@ -81,7 +81,7 @@ Sorting the movies based on weighted score
 q_movies = q_movies.sort_values(by="score", ascending=False)
 ```
 
-<img src="{{ site.url }}{{ site.baseurl }}/images/recommend/recommend1.png" alt="sorted demographic recommendations">
+<img src="{{ site.url }}{{ site.baseurl }}/images/recommend/recommend_1.png" alt="sorted demographic recommendations">
 
 ## Content Based Filtering
 For this, we will find similar movies according to their overview, cast, crew, keyword, tagline etc.
@@ -152,7 +152,7 @@ print(get_recommendations('The Avengers'))
 
 ```
 
-<img src="{{ site.url }}{{ site.baseurl }}/images/recommend/recommend2.png" alt="content based recommendations">
+<img src="{{ site.url }}{{ site.baseurl }}/images/recommend/recommend_2.png" alt="content based recommendations">
 
 These doesn't look so good. We can improve it by including credits, genre and keywords to our recommender.
 
@@ -253,4 +253,4 @@ print(get_recommendations('The Avengers', cosine_sim2))
 print(get_recommendations('The Avengers', cosine_sim))
 ```
 
-<img src="{{ site.url }}{{ site.baseurl }}/images/recommend/recommend3.png" alt="more based based recommendations">
+<img src="{{ site.url }}{{ site.baseurl }}/images/recommend/recommend_3.png" alt="more based based recommendations">
