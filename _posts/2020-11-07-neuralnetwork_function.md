@@ -1,8 +1,8 @@
 ---
 title: "A Neural Network Function v.1"
 date: "2020-11-07"
-tages: [algorithm, neural networks , keras, tensowflow]
-excerpt: "Algorithm, Neural Netowrks, Keras, TensowFlow"
+tages: [algorithm, neural networks , keras, tensorflow]
+excerpt: "Algorithm, Neural Netowrks, Keras, TensorFlow"
 categories:
 - Algorithm
 - Neural Networks
