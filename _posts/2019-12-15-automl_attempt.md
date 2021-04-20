@@ -11,10 +11,12 @@ categories:
 - null filling
 ---
 
+### Update Note:
+This workbook is very old :) 
 
 # About
 
-In this notebook, I will share a small AutoML class that I wrote last week. I am going to improve it for sure, but for now, I think you might also use and extend it for your own purposes.
+In this notebook, I will share a small class that I wrote last week. I am going to improve it for sure, but for now, I think you might also use and extend it for your own purposes.
 
 Now what this class will do is:
 
